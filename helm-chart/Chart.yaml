@@ -1,11 +1,9 @@
 apiVersion: v2
-name: ml-aml-workshop
-description: A Helm chart for installing AI-ML-Workshop
+name: pet-battle-nsfw
+description: A Helm chart for installing NSFW Pet Battle AI-ML components
 type: application
 version: 0.0.1
 appVersion: 0.0.1
-home: https://rht-labs.github.io/helm-charts/
+home: https://eformat.github.io/helm-charts/
 maintainers:
   - name: eformat
-  - name: rbrigoli
-  - name: fmasood
