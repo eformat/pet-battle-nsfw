@@ -1,0 +1,23 @@
+namespace: ml-workshop
+
+image:
+  notebook:
+    image: quay.io/ml-aml-workshop/keras-tensorflow-panda-notebook:0.0.1
+  postgresdb:
+    image: registry.access.redhat.com/rhscl/postgresql-96-rhel7:latest
+  minio:
+    image: docker.io/minio/minio:latest
+  tensorboard:
+    image: docker.io/tensorflow/tensorflow:latest-gpu
+
+subscription:
+  opendatahub:
+    csv: opendatahub-operator.v0.5.1
+  strimzi:
+    csv: strimzi-cluster-operator.v0.17.0
+
+#
+replicaCount: 1
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""

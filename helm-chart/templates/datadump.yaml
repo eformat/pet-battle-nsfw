@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: datadump-ml-workshop
+  labels:
+    application: datadump-ml-workshop
+spec:
+  parallelism: 1
+  completions: 2
+  backoffLimit: 3
+  template:
+    metadata:
+      name: datadump-ml-workshop
+    spec:
+      restartPolicy: Never
+      initContainers:
+      - name: waitdb
+        image: {{ .Values.image.postgresdb.image }}
+        command: ['sh', '-c', "until nslookup {{ include "postgresdb.fullname" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for postgresql service; sleep 2; done"]
+      containers:
+      - name: pg-init-ml-workshop
+        image: postgres:12-alpine
+        imagePullPolicy: Always
+        command:
+        - /bin/sh
+        - -c
+        - export PGPASSWORD=postgres && psql -h {{ include "postgresdb.fullname" . }} -p 5432 -U postgres -d ml-workshop -c "DROP TABLE IF EXISTS creditcard; CREATE TABLE creditcard (row_number BIGINT,Time INTEGER,V1 DECIMAL,V2 DECIMAL,V3 DECIMAL,V4 DECIMAL,V5 DECIMAL,V6 DECIMAL,V7 DECIMAL,V8 DECIMAL,V9 DECIMAL,V10 DECIMAL,V11 DECIMAL,V12 DECIMAL,V13 DECIMAL,V14 DECIMAL,V15 DECIMAL,V16 DECIMAL,V17 DECIMAL);"
+      - name: datadump-ml-workshop
+        image: brigss007/data-dump-ml-workshop:latest
+        imagePullPolicy: Always
+        env:
+        - name: JAVA_OPTS
+          value: -Xmx2g
+        - name: KAFKA_HOST
+          value: {{ include "kafka.fullname" . }}-kafka-bootstrap:9092
+        - name: POSTGRES_HOST
+          value: {{ include "postgresdb.fullname" . }}:5432
+        command:
+        - /bin/sh
+        - -c
+        - java ${JAVA_OPTS} -cp "lib/*:data-pipeline.jar" -Dspark.debug.maxToStringFields=100 com.redhat.labs.datapipeline.DataPrepTool "creditcard.csv" "jdbc:postgresql://${POSTGRES_HOST}/ml-workshop" creditcard postgres postgres "${KAFKA_HOST}" mlworkshop.creditcard

@@ -1,0 +1,7 @@
+version: '3'
+services:
+  kogito:
+    image: quay.io/eformat/pet-battle-nsfw-kogito:latest
+    ports:
+      - "8081:8081"
+    hostname: kogito

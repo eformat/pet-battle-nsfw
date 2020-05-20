@@ -1,0 +1,23 @@
+package org.acme.kogito
+
+import org.acme.kogito.model.Score;
+
+rule "Is nsfw" ruleflow-group "score"
+
+when
+    $score: Score(nsfw >= 0.6)
+then
+    modify($score) {
+        setIssfw(false)
+    };
+end
+
+rule "Is sfw" ruleflow-group "score"
+
+when
+    $score: Score(nsfw < 0.6)
+then
+    modify($score) {
+        setIssfw(true)
+    };
+end

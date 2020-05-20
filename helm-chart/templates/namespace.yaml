@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: "Credit Card Fraud Demo"
+    openshift.io/display-name: "Credit Card Fraud Demo"
+    argocd.argoproj.io/sync-wave: "-1"
+  name: {{ .Values.namespace | default "ml-workshop" | quote}}
+  labels:
+    {{- include "ml-aml-workshop.labels" . | nindent 4 }}
