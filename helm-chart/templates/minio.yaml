@@ -19,7 +19,7 @@ data:
     model_config_list {
       config {
         name: 'test_model'
-        base_path: 's3://models/test_model'
+        base_path: 's3://models/saved_model'
         model_platform: "tensorflow",
         model_version_policy: {all: {}}
       }
@@ -123,7 +123,7 @@ spec:
         command:
         - /bin/sh
         - -c
-        - "mc --config-dir=/config config host add velero http://{{ include "minio.fullname" . }}:9000 minio minio123 && mc --config-dir=/config mb --ignore-existing velero/data/ && mc --config-dir=/config mb --ignore-existing velero/model-stats/tensordata/ && mc --config-dir=/config mb --ignore-existing velero/models/ && mc --config-dir=/config cp /tmp/models.config velero/models && mc --config-dir=/config cp /tmp/prometheus_config.config velero/models"
+        - "mc --config-dir=/config config host add velero http://{{ include "minio.fullname" . }}:9000 minio minio123 && mc --config-dir=/config mb --ignore-existing velero/models/ && mc --config-dir=/config cp /tmp/models.config velero/models && mc --config-dir=/config cp /tmp/prometheus_config.config velero/models"
         volumeMounts:
         - name: config
           mountPath: "/config"

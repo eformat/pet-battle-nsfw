@@ -2,12 +2,8 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "ml-aml-workshop.name" -}}
+{{- define "pet-battle-nsfw.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{- define "postgresdb.name" -}}
-{{- default "postgresql" -}}
 {{- end -}}
 
 {{- define "minio.name" -}}
@@ -27,7 +23,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "ml-aml-workshop.fullname" -}}
+{{- define "pet-battle-nsfw.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -40,24 +36,12 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 {{- end -}}
 
-{{- define "notebook.fullname" -}}
-{{- printf "%s-%s" .Release.Name "keras-tensorflow-panda-notebook" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
 {{- define "odhog.fullname" -}}
-{{- printf "%s-%s" "ml-aml-workshop" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" "pet-battle-nsfw" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "odh.fullname" -}}
 {{- printf "%s-%s" .Release.Name "odh" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{- define "kafka.fullname" -}}
-{{- printf "%s" "kafka-ml-workshop" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{- define "postgresdb.fullname" -}}
-{{- printf "%s" "postgres-ml-workshop" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "minio.fullname" -}}
@@ -75,25 +59,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "ml-aml-workshop.chart" -}}
+{{- define "pet-battle-nsfw.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "ml-aml-workshop.labels" -}}
-helm.sh/chart: {{ include "ml-aml-workshop.chart" . }}
-{{ include "ml-aml-workshop.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end -}}
-
-{{- define "postgresdb.labels" -}}
-helm.sh/chart: {{ include "ml-aml-workshop.chart" . }}
-{{ include "postgresdb.selectorLabels" . }}
+{{- define "pet-battle-nsfw.labels" -}}
+helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
+{{ include "pet-battle-nsfw.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -101,7 +76,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{- define "minio.labels" -}}
-helm.sh/chart: {{ include "ml-aml-workshop.chart" . }}
+helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
 {{ include "minio.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -110,7 +85,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{- define "tensorboard.labels" -}}
-helm.sh/chart: {{ include "ml-aml-workshop.chart" . }}
+helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
 {{ include "tensorboard.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -119,7 +94,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{- define "tfserving.labels" -}}
-helm.sh/chart: {{ include "ml-aml-workshop.chart" . }}
+helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
 {{ include "tfserving.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -130,13 +105,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "ml-aml-workshop.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "ml-aml-workshop.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end -}}
-
-{{- define "postgresdb.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "postgresdb.name" . }}
+{{- define "pet-battle-nsfw.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "pet-battle-nsfw.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
