@@ -3,11 +3,9 @@
 apiVersion: opendatahub.io/v1alpha1
 kind: OpenDataHub
 metadata:
-  namespace: {{ .Values.namespace }}
   name: {{ include "odh.fullname" . }}
   labels:
     {{- include "ml-aml-workshop.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
 spec:
   aicoe-jupyterhub:
     spark_configmap_template: jupyterhub-spark-operator-configmap

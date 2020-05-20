@@ -7,10 +7,14 @@ import os.path
 # https://docs.min.io/docs/python-client-api-reference.html
 
 def deploy_model(model_name):
-    minioClient = Minio('127.0.0.1:9000',
-                      access_key='minioadmin',
-                      secret_key='minioadmin',
-                      secure=False)
+    #minioClient = Minio('127.0.0.1:9000',
+    #                  access_key='minioadmin',
+    #                  secret_key='minioadmin',
+    #                 secure=False)
+    minioClient = Minio(os.environ.get('MINIO_SERVICE_HOST'),
+                      access_key=os.environ.get('MINIO_USER'),
+                      secret_key=os.environ.get('MINIO_PWD'),
+                     secure=False)
 
     files = []
     folder_name = model_name

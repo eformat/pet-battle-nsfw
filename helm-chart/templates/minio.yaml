@@ -8,7 +8,6 @@ data:
     }
 kind: ConfigMap
 metadata:
-  namespace: {{ .Values.namespace }}
   name: promconfig
   labels:
     {{- include "minio.labels" . | nindent 4 }}
@@ -26,7 +25,6 @@ data:
     }
 kind: ConfigMap
 metadata:
-  namespace: {{ .Values.namespace }}
   name: modelconfig
   labels:
     {{- include "minio.labels" . | nindent 4 }}
@@ -34,7 +32,6 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.namespace }}
   name: {{ include "minio.fullname" . }}
   labels:
     {{- include "minio.labels" . | nindent 4 }}
@@ -79,7 +76,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: {{ .Values.namespace }}
   name: {{ include "minio.fullname" . }}
   labels:
     {{- include "minio.labels" . | nindent 4 }}
@@ -95,7 +91,6 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  namespace: {{ .Values.namespace }}
   name: {{ include "minio.fullname" . }}
   labels:
     {{- include "minio.labels" . | nindent 4 }}
@@ -137,7 +132,6 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  namespace: {{ .Values.namespace }}
   name: {{ include "minio.fullname" . }}
   labels:
     {{- include "minio.labels" . | nindent 4 }}

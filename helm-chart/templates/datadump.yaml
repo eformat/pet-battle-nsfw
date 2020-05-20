@@ -3,7 +3,6 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  namespace: {{ .Values.namespace }}
   name: datadump-ml-workshop
   labels:
     application: datadump-ml-workshop
