@@ -1,3 +1,4 @@
+{{- if false -}}
 ---
 apiVersion: opendatahub.io/v1alpha1
 kind: OpenDataHub
@@ -141,3 +142,4 @@ spec:
     odh_deploy: true
   beakerx:
     odh_deploy: false
+{{- end -}}

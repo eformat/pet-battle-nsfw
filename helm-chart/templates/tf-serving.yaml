@@ -1,3 +1,4 @@
+{{- if false -}}
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -102,3 +103,4 @@ spec:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
   wildcardPolicy: None
+{{- end -}}

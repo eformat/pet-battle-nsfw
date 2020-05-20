@@ -1,3 +1,5 @@
+{{- if false -}}
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -40,3 +42,4 @@ spec:
         - /bin/sh
         - -c
         - java ${JAVA_OPTS} -cp "lib/*:data-pipeline.jar" -Dspark.debug.maxToStringFields=100 com.redhat.labs.datapipeline.DataPrepTool "creditcard.csv" "jdbc:postgresql://${POSTGRES_HOST}/ml-workshop" creditcard postgres postgres "${KAFKA_HOST}" mlworkshop.creditcard
+{{- end -}}
