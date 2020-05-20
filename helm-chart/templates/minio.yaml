@@ -97,7 +97,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: minio-setup-ml-workshop
+      name: minio-setup
     spec:
       restartPolicy: OnFailure
       volumes:
@@ -128,6 +128,33 @@ spec:
         - mountPath: /tmp/prometheus_config.config
           name: promconfig
           subPath: prometheus_config.config
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "minio.fullname" . }}-dataload
+  labels:
+    {{- include "minio.labels" . | nindent 4 }}
+spec:
+  template:
+    metadata:
+      name: minio-setup
+    spec:
+      restartPolicy: OnFailure
+      volumes:
+      - name: config
+        emptyDir: {}
+      containers:
+      - name: nsfw
+        image: quay.io/eformat/pet-battle-nsfw-model-data:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MINIO_ACCESS_KEY
+          value: "minio"
+        - name: MINIO_SECRET_KEY
+          value: "minio123"
+        - name: MINIO_SERVICE_HOST
+          value: "{{ include "minio.fullname" . }}:9000"
 ---
 kind: Route
 apiVersion: route.openshift.io/v1

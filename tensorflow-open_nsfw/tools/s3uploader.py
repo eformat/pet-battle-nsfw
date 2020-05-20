@@ -12,9 +12,9 @@ def deploy_model(model_name):
     #                  secret_key='minioadmin',
     #                 secure=False)
     minioClient = Minio(os.environ.get('MINIO_SERVICE_HOST'),
-                      access_key=os.environ.get('MINIO_USER'),
-                      secret_key=os.environ.get('MINIO_PWD'),
-                     secure=False)
+                      access_key=os.environ.get('MINIO_ACCESS_KEY'),
+                      secret_key=os.environ.get('MINIO_SECRET_KEY'),
+                      secure=False)
 
     files = []
     folder_name = model_name

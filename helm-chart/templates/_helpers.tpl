@@ -45,15 +45,15 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{- define "minio.fullname" -}}
-{{- printf "%s" "minio-ml-workshop" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" "minio" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "tensorboard.fullname" -}}
-{{- printf "%s" "tensorboard-ml-workshop" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" "tensorboard" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "tfserving.fullname" -}}
-{{- printf "%s" "tensorflowserving-ml-workshop" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" "tensorflowserving" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
