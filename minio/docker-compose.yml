@@ -6,5 +6,5 @@ services:
       - "9000:9000"
     hostname: minio
     volumes:
-    - /home/mike/git/nsfw/minio/minio-data:/data:z
+    - /home/mike/git/pet-battle-nsfw/minio/minio-data:/data:z
     command: ["server", "/data"]

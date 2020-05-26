@@ -10,13 +10,18 @@ Expand the name of the chart.
 {{- default "minio" -}}
 {{- end -}}
 
-{{- define "tensorboard.name" -}}
-{{- default "tensorboard" -}}
-{{- end -}}
-
 {{- define "tfserving.name" -}}
 {{- default "tfserving" -}}
 {{- end -}}
+
+{{- define "kogito.name" -}}
+{{- default "kogito" -}}
+{{- end -}}
+
+{{- define "api.name" -}}
+{{- default "api" -}}
+{{- end -}}
+
 
 {{/*
 Create a default fully qualified app name.
@@ -41,19 +46,23 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{- define "odh.fullname" -}}
-{{- printf "%s-%s" .Release.Name "odh" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" "odh" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "minio.fullname" -}}
 {{- printf "%s-%s" "minio" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "tensorboard.fullname" -}}
-{{- printf "%s-%s" "tensorboard" .Release.Name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
 {{- define "tfserving.fullname" -}}
 {{- printf "%s-%s" "tensorflowserving" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "kogito.fullname" -}}
+{{- printf "%s-%s" "kogito" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "api.fullname" -}}
+{{- printf "%s-%s" "api" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
@@ -84,15 +93,6 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-{{- define "tensorboard.labels" -}}
-helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
-{{ include "tensorboard.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end -}}
-
 {{- define "tfserving.labels" -}}
 helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
 {{ include "tfserving.selectorLabels" . }}
@@ -101,6 +101,25 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
+
+{{- define "kogito.labels" -}}
+helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
+{{ include "kogito.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{- define "api.labels" -}}
+helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
+{{ include "api.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
 
 {{/*
 Selector labels
@@ -115,13 +134,17 @@ app.kubernetes.io/name: {{ include "minio.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{- define "tensorboard.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "tensorboard.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end -}}
-
 {{- define "tfserving.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "tfserving.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
+{{- define "kogito.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "kogito.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "api.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "api.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}

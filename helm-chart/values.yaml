@@ -3,18 +3,26 @@ namespace: pet-battle-nsfw
 image:
   notebook:
     image: quay.io/ml-aml-workshop/keras-tensorflow-panda-notebook:0.0.1
-  postgresdb:
-    image: registry.access.redhat.com/rhscl/postgresql-96-rhel7:latest
   minio:
     image: docker.io/minio/minio:latest
-  tensorboard:
-    image: docker.io/tensorflow/tensorflow:latest-gpu
+  kogito:
+    image: quay.io/eformat/pet-battle-nsfw-kogito:latest
+  api:
+    image: quay.io/eformat/pet-battle-nsfw-api:latest
+
 
 subscription:
   opendatahub:
-    csv: opendatahub-operator.v0.5.1
-  strimzi:
-    csv: strimzi-cluster-operator.v0.17.0
+    csv: opendatahub-operator.v0.6.0
+
+odh:
+  kdef:
+    version: v0.7-branch-openshift
+
+minio:
+  persistence:
+    accessModes: ReadWriteOnce
+    volumeSize: 5Gi
 
 #
 replicaCount: 1

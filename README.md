@@ -20,6 +20,9 @@ Create a bucket called `models`, login to http://localhost:9000 with default `mi
 Upload pre-built tensorflow model to minio
 ```bash
 cd tensorflow-open_nsfw/tools
+export MINIO_SERVICE_HOST=127.0.0.1:9000
+export MINIO_ACCESS_KEY=minioadmin
+export MINIO_SECRET_KEY=minioadmin
 python3.7 s3uploader.py
 ```
 
