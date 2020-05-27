@@ -6,7 +6,19 @@ Based on [Yahoo's Open NSFW Classifier](https://github.com/yahoo/open_nsfw) rewr
 
 ![pet-battle-nsfw-arch.png](pet-battle-nsfw-arch.png)
 
-## Locally
+## Deploying the Full Example
+
+helm3 deploy of PetBattle onto OpenShift (frontend, api, nsfw)
+```
+oc new-project pet-battle-nsfw
+helm repo add eformat https://eformat.github.io/helm-charts
+helm repo update
+helm install pb-nsfw eformat/pet-battle-nsfw --version=0.0.1
+helm install pb-api eformat/pet-battle-api --version=1.0.0 --set nsfw.enabled=true,nsfw.apiHost=$(oc get svc -lapp.kubernetes.io/name=nsfwapi -o custom-columns=NAME:.metadata.name --no-headers)
+helm install pb-fe eformat/pet-battle --version=1.0.0 --set config_map="'http://$(oc get route -lapp.kubernetes.io/name=pet-battle-api -o custom-columns=ROUTE:.spec.host --no-headers)'"
+```
+
+## NSFW Locally
 
 Running in local containers
 
@@ -50,7 +62,7 @@ cd api
 make podman-run
 ```
 
-### Testing URLs
+### NSFW Testing URLs
 
 Test end to end api Requests
 ```bash

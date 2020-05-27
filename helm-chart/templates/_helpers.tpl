@@ -18,8 +18,8 @@ Expand the name of the chart.
 {{- default "kogito" -}}
 {{- end -}}
 
-{{- define "api.name" -}}
-{{- default "api" -}}
+{{- define "nsfwapi.name" -}}
+{{- default "nsfwapi" -}}
 {{- end -}}
 
 
@@ -61,8 +61,8 @@ If release name contains chart name it will be used as a full name.
 {{- printf "%s-%s" "kogito" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "api.fullname" -}}
-{{- printf "%s-%s" "api" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- define "nsfwapi.fullname" -}}
+{{- printf "%s-%s" "nsfwapi" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
@@ -111,9 +111,9 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-{{- define "api.labels" -}}
+{{- define "nsfwapi.labels" -}}
 helm.sh/chart: {{ include "pet-battle-nsfw.chart" . }}
-{{ include "api.selectorLabels" . }}
+{{ include "nsfwapi.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -144,7 +144,7 @@ app.kubernetes.io/name: {{ include "kogito.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{- define "api.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "api.name" . }}
+{{- define "nsfwapi.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "nsfwapi.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}

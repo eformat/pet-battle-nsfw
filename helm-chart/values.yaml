@@ -7,7 +7,7 @@ image:
     image: docker.io/minio/minio:latest
   kogito:
     image: quay.io/eformat/pet-battle-nsfw-kogito:latest
-  api:
+  nsfwapi:
     image: quay.io/eformat/pet-battle-nsfw-api:latest
 
 
