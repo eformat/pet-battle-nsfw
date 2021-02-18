@@ -13,9 +13,7 @@ helm3 deploy of PetBattle onto OpenShift (frontend, api, nsfw)
 oc new-project pet-battle-nsfw
 helm repo add eformat https://eformat.github.io/helm-charts
 helm repo update
-helm install pb-nsfw eformat/pet-battle-nsfw --version=0.0.1
-helm install pb-api eformat/pet-battle-api --version=1.0.0 --set nsfw.enabled=true,nsfw.apiHost=$(oc get svc -lapp.kubernetes.io/name=nsfwapi -o custom-columns=NAME:.metadata.name --no-headers)
-helm install pb-fe eformat/pet-battle --version=1.0.0 --set config_map="'http://$(oc get route -lapp.kubernetes.io/name=pet-battle-api -o custom-columns=ROUTE:.spec.host --no-headers)'"
+helm install pb-nsfw eformat/pet-battle-nsfw --version=0.0.2
 ```
 
 ## NSFW Locally
@@ -66,10 +64,10 @@ make podman-run
 
 Test end to end api Requests
 ```bash
-cd api
 HOST=http://localhost:5000
+HOST=https://$(oc get route nsfwapi-pb-nsfw -o custom-columns=ROUTE:.spec.host --no-headers)
 
-curl -s -k -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST --data-binary '@requests/nsfw-negative.json' $HOST/api/v1.0/nsfw
+curl -s -k -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST --data-binary '@api/requests/nsfw-negative.json' $HOST/api/v1.0/nsfw
 {
   "id": "1",
   "issfw": true,
@@ -77,19 +75,19 @@ curl -s -k -H 'Content-Type: application/json' -H 'Accept: application/json' -X 
   "sfw": 0.992924571
 }
 
-curl -s -k -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST --data-binary '@requests/nsfw-positive.json' $HOST/api/v1.0/nsfw
+curl -s -k -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST --data-binary '@api/requests/nsfw-positive.json' $HOST/api/v1.0/nsfw
 {
   "id": "5ec48de61101e3740aa41511",
   "issfw": false,
   "nsfw": 0.985861182,
   "sfw": 0.0141387871
 }
-
 ```
 
 API transaction (in memory)
 ```bash
 HOST=http://localhost:5000
+HOST=https://$(oc get route nsfwapi-pb-nsfw -o custom-columns=ROUTE:.spec.host --no-headers)
 curl -s -k -H 'Content-Type: application/json' -H 'Accept: application/json' $HOST/api/v1.0/nsfw/transactions
 ```
 
@@ -99,7 +97,10 @@ Kogito test rule execution and process flow
 http://localhost:8081/swagger-ui
 
 -- not safe for work
-curl -s -X POST http://localhost:8081/nsfw \
+HOST=http://localhost:8081/nsfw
+HOST=https://$(oc get route kogito-pb-nsfw -o custom-columns=ROUTE:.spec.host --no-headers)/nsfw
+
+curl -s -k -X POST $HOST \
      -H 'content-type: application/json' \
      -H 'accept: application/json' \
      -d '{"score": {"imageId":"Foo.jpg", "sfw": 0.3, "nsfw": 0.7}}' | jq .
@@ -112,9 +113,8 @@ curl -s -X POST http://localhost:8081/nsfw \
     "issfw": false
   }
 
-
--- safe for work
-curl -s -X POST http://localhost:8081/nsfw \
+-- safe for work (process ends automatically)
+curl -s -k -X POST $HOST \
      -H 'content-type: application/json' \
      -H 'accept: application/json' \
      -d '{"score": {"imageId":"Foo.jpg", "sfw": 0.7, "nsfw": 0.3}}' | jq .
@@ -128,15 +128,14 @@ curl -s -X POST http://localhost:8081/nsfw \
   }
 }
 
--- get running processes
-curl -s -X GET http://localhost:8081/nsfw \
+-- get running processes (these will be nsfw, require remediation)
+curl -s -k -X GET $HOST \
      -H 'content-type: application/json' \
      -H 'accept: application/json' | jq .
 
 -- get human tasks
-ID=7abf6a4d-527b-4c30-a49e-89ab56a76025
-curl -s -X GET http://localhost:8080/nsfw/$ID/tasks \
+ID=4e1bc192-bdd2-4be6-891f-84c01db692f0
+curl -s -k -X GET $HOST/$ID/tasks \
      -H 'content-type: application/json' \
      -H 'accept: application/json' | jq .
 ```
-
