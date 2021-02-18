@@ -2,7 +2,7 @@ apiVersion: v2
 name: pet-battle-nsfw
 description: A Helm chart for installing NSFW Pet Battle AI-ML components
 type: application
-version: 0.0.1
+version: 0.0.2
 appVersion: 0.0.1
 home: https://eformat.github.io/helm-charts/
 maintainers:

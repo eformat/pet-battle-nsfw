@@ -110,7 +110,7 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: kogito
+    name: {{ include "kogito.fullname" . }}
     weight: 100
   wildcardPolicy: None
 status:
