@@ -4,7 +4,7 @@
   "description": "This code is for the tutorial on building an AJAX file uploader with NodeJs, express, and formidable.",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "formidable": "^1.2.1",
     "request": "^2.88.0"
   },
